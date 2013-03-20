@@ -13,9 +13,9 @@ and a $N$-dimensional data vector $X$.
 By definition---Hogg's definition---if it is permissible to call your model $H$
 a ``model'', then you also have a specification of the likelihood function,
 $p(X\given\theta, H)$.
-Now imagine that it so extremely expensive to compute the likelihood function that
-you have had to pre-compute parts of it on a grid of $M$ positions $\theta_m$ in
-the $D$-dimensional space.
+Now imagine that it is so extremely expensive to compute the likelihood function that
+you have had to pre-compute parts of it on a (possibly highly irregular)
+grid of $M$ positions $\theta_m$ in the $D$-dimensional space.
 This pre-computation forces you to do all your subsequent analysis
 \emph{on this grid}.
 That is, in a certain sense your parameter space has just become discrete,
@@ -47,7 +47,21 @@ p(X\given\theta_{m(\theta)}, H)
 \end{eqnarray}
 That is, in this approximation the full likelihood function
 $p(X\given\theta, H)$ is approximated by a piecewise-constant function
-that is constant within each of the $M$ domains $m$, and the constant
-value in each domain is the value at the grid point $\theta_m$.
+that is constant within each of the $M$ domains, and the constant
+value in each domain $m$ is the value at the grid point $\theta_m$.
+Recall that the grid can be highly irregular; nothing here requires
+regularity or axis alignment or any other nice property for this
+(perhaps ill-named) ``grid''.
+
+[insert one-d example figure here]
+
+...discuss sampling this model: Either sample directly with MCMC or
+else importance-sample a prior sampling.
+
+[insert sampling example figure here]
+
+...discuss marginalization.
+
+[insert two-d--to--one-d marginalization example figure here]
 
 \end{document}
