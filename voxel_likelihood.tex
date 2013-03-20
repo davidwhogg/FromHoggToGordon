@@ -60,7 +60,7 @@ make an approximate posterior pdf.  Because the prior won't in general
 be constant in domains of $\theta$, the posterior approximation won't
 in general be piecewise constant any more.  This is all illustrated
 for an ersatz two-dimensional $\theta$ space in
-\figurename~\ref{fig:posterior}.  Margialization to a subspace
+\figurename~\ref{fig:posterior}.  Marginalization to a subspace
 proceeds as per usual; marginalization is illustrated in
 \figurename~\ref{fig:marginal}.
 
@@ -101,9 +101,9 @@ the prior calls are unchanged while likelihood calls take the
 parameter position $\theta$ through the proximity function $m(\theta)$
 before evaluating (or looking up) the relevant likelihood at the
 nearest control point $\theta_m$.  Sampling can also proceed by using
-the approximate likelihood to \emph{importance sample} down a sampling
-of the prior PDF.  If the prior can be easily and densely sampled, and
-the proximity function is written sensibly so it can run on the full
-prior sampling quickly, this can be efficient.
+the approximate likelihood to \emph{importance sample} (thin down) a
+full sampling of the entire prior PDF.  If the prior can be easily and
+densely sampled, and the proximity function is written sensibly so it
+can run on the full prior sampling quickly, this can be efficient.
 
 \end{document}
