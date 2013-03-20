@@ -103,6 +103,7 @@ if __name__ == "__main__":
     plt.ylim(xlim)
     plt.savefig("voxels.png")
     plt.savefig("voxels.pdf")
+    plt.savefig("voxels.eps")
     plt.figure(figsize=(8, 8))
     plt.gray()
     plt.subplot(221)
@@ -141,3 +142,4 @@ if __name__ == "__main__":
     plt.ylim(-0.1 * np.max(marg_posts), 1.1 * np.max(marg_posts))
     plt.savefig("voxels2.png")
     plt.savefig("voxels2.pdf")
+    plt.savefig("voxels2.eps")
