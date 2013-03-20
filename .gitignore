@@ -1,5 +1,7 @@
 *~
 *.aux
+*.dvi
+*.eps
 *.log
 *.pdf
 *.png
