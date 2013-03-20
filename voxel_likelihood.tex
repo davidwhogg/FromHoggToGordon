@@ -3,6 +3,7 @@
 
 \documentclass[12pt]{article}
 
+\newcommand{\documentname}{\textsl{Note}}
 \newcommand{\given}{\,|\,}
 
 \begin{document}
@@ -24,11 +25,29 @@ In reality the $\theta$-space is continuous, and your prior pdf $p(\theta\given 
 is continuous and has support everywhere in the $\theta$-space.
 You have two options:
 Either you can treat the space as truly discrete, and somehow discretize your prior,
-or else you can treat the space as truly continuous, and somehow ``continuum-ize'' your likelihood.
+or else you can treat the space as truly continuous, and somehow ``continuum-ize'' your likelihood grid.
 In this \documentname, we will consider the latter; we answer the following question:
 How can you do continuous parameter estimation and nuisance-parameter marginalization
 when the likelihood function is only computed on a finite, discrete grid?
 
-The first thing we will need is some kind of proximity function...
+The first thing we will need is some kind of proximity function
+$m(\theta)$ that, for any point $\theta$ in the parameter space,
+returns the index $m$ that is the identity of the closest (or most
+relevant) discrete parameter-space grid point $\theta_m$ to the point
+$\theta$.  This function $m(\theta)$ will in general be some kind of
+set of cuts in the space, either a point-based tesselation or a set of
+hard-set boundaries.  Once we have this function, the
+continuum-ization is just the extension of the discrete likelihood
+over the domains defined by $m(\theta)$:
+\begin{eqnarray}
+p(X\given\theta, H)
+ &\approx&
+p(X\given\theta_{m(\theta)}, H)
+\quad ,
+\end{eqnarray}
+That is, in this approximation the full likelihood function
+$p(X\given\theta, H)$ is approximated by a piecewise-constant function
+that is constant within each of the $M$ domains $m$, and the constant
+value in each domain is the value at the grid point $\theta_m$.
 
 \end{document}
