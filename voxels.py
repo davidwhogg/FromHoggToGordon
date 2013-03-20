@@ -26,7 +26,7 @@ def prior_y(ys):
     return ps
 
 def likelihood(xs, ys):
-    return np.exp(-0.5 * ((xs - max_val + 2.5) ** 2 + (ys - max_val + 3.1) ** 2) / 1. ** 2)
+    return np.exp(-0.5 * ((xs - max_val + 2.5) ** 2 + (ys - max_val + 3.1) ** 2) / 1.5 ** 2)
 
 def grid_likelihood(xs, ys, xgrid, ygrid):
     ms = proximity(xs, ys, xgrid, ygrid)
@@ -45,8 +45,12 @@ def proximity(xs, ys, xgrid, ygrid):
     return msf.reshape(xs.shape)
 
 def draw_points():
-    return (0.5 + max_val * np.random.uniform(size=64), 
-            0.5 + max_val * np.random.uniform(size=64))
+    nx = 8
+    amp = 1. / 6.
+    ygrid, xgrid = 0.5 + max_val * (np.mgrid[0:nx,0:nx] + 0.5) / float(nx)
+    xgrid = xgrid.flatten() + amp * np.random.normal(size=nx * nx)
+    ygrid = ygrid.flatten() + amp * np.random.normal(size=nx * nx)
+    return xgrid, ygrid
 
 if __name__ == "__main__":
     np.random.seed(1)
@@ -59,6 +63,10 @@ if __name__ == "__main__":
     likes = likelihood(xs, ys)
     glikes = grid_likelihood(xs, ys, xgrid, ygrid)
     gposts = priors * glikes
+    marg_likes = np.sum(likes * priors_y, axis=0)
+    marg_glikes = np.sum(glikes * priors_y, axis=0)
+    marg_posts = np.sum(likes * priors_x * priors_y, axis=0)
+    marg_gposts = np.sum(glikes * priors_x * priors_y, axis=0)
     print priors.shape, likes.shape, glikes.shape, gposts.shape
     kwargs = {"interpolation": "nearest", "vmin": 0., "origin": "lower", "extent": (0.5, max_val + 0.5, 0.5, max_val + 0.5)}
     xlim = [0.5, max_val + 0.5]
@@ -94,3 +102,42 @@ if __name__ == "__main__":
     plt.xlim(xlim)
     plt.ylim(xlim)
     plt.savefig("voxels.png")
+    plt.savefig("voxels.pdf")
+    plt.figure(figsize=(8, 8))
+    plt.gray()
+    plt.subplot(221)
+    plt.plot(xs[0], marg_likes, 'k-')
+    plt.axhline(color="k", alpha=0.5)
+    plt.title("true marginalized likelihood")
+    plt.gca().axes.get_xaxis().set_ticks([])
+    plt.gca().axes.get_yaxis().set_ticks([])
+    plt.xlim(xlim)
+    plt.ylim(-0.1 * np.max(marg_likes), 1.1 * np.max(marg_likes))
+    plt.subplot(222)
+    plt.plot(xs[0], marg_glikes, 'k-')
+    plt.plot(xs[0], marg_likes, 'k-', alpha=0.5)
+    plt.axhline(color="k", alpha=0.5)
+    plt.title("approximate marginalized likelihood")
+    plt.gca().axes.get_xaxis().set_ticks([])
+    plt.gca().axes.get_yaxis().set_ticks([])
+    plt.xlim(xlim)
+    plt.ylim(-0.1 * np.max(marg_likes), 1.1 * np.max(marg_likes))
+    plt.subplot(223)
+    plt.plot(xs[0], marg_posts, 'k-')
+    plt.axhline(color="k", alpha=0.5)
+    plt.title("true marginalized posterior")
+    plt.gca().axes.get_xaxis().set_ticks([])
+    plt.gca().axes.get_yaxis().set_ticks([])
+    plt.xlim(xlim)
+    plt.ylim(-0.1 * np.max(marg_posts), 1.1 * np.max(marg_posts))
+    plt.subplot(224)
+    plt.plot(xs[0], marg_gposts, 'k-')
+    plt.plot(xs[0], marg_posts, 'k-', alpha=0.5)
+    plt.axhline(color="k", alpha=0.5)
+    plt.title("approximate marginalized posterior")
+    plt.gca().axes.get_xaxis().set_ticks([])
+    plt.gca().axes.get_yaxis().set_ticks([])
+    plt.xlim(xlim)
+    plt.ylim(-0.1 * np.max(marg_posts), 1.1 * np.max(marg_posts))
+    plt.savefig("voxels2.png")
+    plt.savefig("voxels2.pdf")

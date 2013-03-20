@@ -2,6 +2,7 @@
 % Copyright 2013 the author (guess who that is).
 
 \documentclass[12pt]{article}
+\usepackage{graphics}
 
 \newcommand{\documentname}{\textsl{Note}}
 \newcommand{\given}{\,|\,}
@@ -53,15 +54,56 @@ Recall that the grid can be highly irregular; nothing here requires
 regularity or axis alignment or any other nice property for this
 (perhaps ill-named) ``grid''.
 
-[insert one-d example figure here]
+For inference or marginalization, this approximate likelihood can be
+multiplied by any prior $p(\theta\given H)$ in the $\theta$-space, to
+make an approximate posterior pdf.  Because the prior won't in general
+be constant in domains of $\theta$, the posterior approximation won't
+in general be piecewise constant any more.  This is all illustrated
+for an ersatz two-dimensional $\theta$ space in
+\figurename~\ref{fig:posterior}.  Margialization to a subspace
+proceeds as per usual; marginalization is illustrated in
+\figurename~\ref{fig:marginal}.
 
-...discuss sampling this model: Either sample directly with MCMC or
-else importance-sample a prior sampling.
+\begin{figure}[p]
+\includegraphics[width=\textwidth]{voxels.pdf}
+\caption{\textsl{(top-left)}~An example true (non-approximate)
+  likelihood function in a two-dimensional $\theta$-space (parameter
+  space). \textsl{(top-right)}~The approximate likelihood function
+  based on computations of the true likelihood at only $M=64$ control
+  points $\theta_m$ indicated by crosses.  The approximate likelihood
+  function is piecewise constant in regions defined by a proximity
+  funcion $m(\theta)$, which in this case is a Voronoi tesselation
+  (nearest-neighbor).  \textsl{(bottom-left)}~A non-trivial prior pdf
+  in the $\theta$-space.  \textsl{(bottom-right)}~The approximate
+  posterior pdf obtained by multiplying the approximate likelihood by
+  the prior.  This approximate posterior is no longer piecewise
+  constant, it is now only piecewise continuous.\label{fig:posterior}}
+\end{figure}
 
-[insert sampling example figure here]
+\begin{figure}[p]
+\includegraphics[width=\textwidth]{voxels2.pdf}
+\caption{\textsl{(top-left)}~The marginalization of the true
+  likelihood shown in \figurename~\ref{fig:posterior} down to the
+  horizontal axis.  This marginalization was possible because the
+  prior shown in \figurename~\ref{fig:posterior} was separable
+  (horizontally and vertically).  The zero level is shown with a grey
+  line.  \textsl{(top-right)}~The same but for the marginalized
+  approximate likelihood.  The true marginalized likelihood is shown
+  again as a smooth grey curve.  \textsl{(bottom-left)}~The same but
+  for the marginalized posterior pdf; this differs from the
+  marginalized likelihood by a multiplication of the prior in the
+  horizontal variable.  \textsl{(bottom-right)}~The same but for the
+  marginalized approximate posterior pdf.\label{fig:marginal}}
+\end{figure}
 
-...discuss marginalization.
-
-[insert two-d--to--one-d marginalization example figure here]
+The approximate posterior can be sampled directly using MCMC, where
+the prior calls are unchanged while likelihood calls take the
+parameter position $\theta$ through the proximity function $m(\theta)$
+before evaluating (or looking up) the relevant likelihood at the
+nearest control point $\theta_m$.  Sampling can also proceed by using
+the approximate likelihood to \emph{importance sample} down a sampling
+of the prior PDF.  If the prior can be easily and densely sampled, and
+the proximity function is written sensibly so it can run on the full
+prior sampling quickly, this can be efficient.
 
 \end{document}
