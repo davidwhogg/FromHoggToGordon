@@ -1,0 +1,34 @@
+% This file is part of the "From Hogg for Gordon" project.
+% Copyright 2013 the author (guess who that is).
+
+\documentclass[12pt]{article}
+
+\newcommand{\given}{\,|\,}
+
+\begin{document}
+
+Imagine that you have a model $H$ with a $D$-dimensional parameter vector $\theta$,
+and a $N$-dimensional data vector $X$.
+By definition---Hogg's definition---if it is permissible to call your model $H$
+a ``model'', then you also have a specification of the likelihood function,
+$p(X\given\theta, H)$.
+Now imagine that it so extremely expensive to compute the likelihood function that
+you have had to pre-compute parts of it on a grid of $M$ positions $\theta_m$ in
+the $D$-dimensional space.
+This pre-computation forces you to do all your subsequent analysis
+\emph{on this grid}.
+That is, in a certain sense your parameter space has just become discrete,
+because you can't afford the continuum.
+
+In reality the $\theta$-space is continuous, and your prior pdf $p(\theta\given H)$
+is continuous and has support everywhere in the $\theta$-space.
+You have two options:
+Either you can treat the space as truly discrete, and somehow discretize your prior,
+or else you can treat the space as truly continuous, and somehow ``continuum-ize'' your likelihood.
+In this \documentname, we will consider the latter; we answer the following question:
+How can you do continuous parameter estimation and nuisance-parameter marginalization
+when the likelihood function is only computed on a finite, discrete grid?
+
+The first thing we will need is some kind of proximity function...
+
+\end{document}
